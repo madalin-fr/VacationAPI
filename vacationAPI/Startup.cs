@@ -46,14 +46,6 @@ namespace VacationAPI
             services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
 
 
-
-            // Register services and repositories
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IVacationRequestRepository, VacationRequestRepository>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IVacationRequestService, VacationRequestService>();
-            services.AddScoped<ICalendarificApiService, CalendarificApiService>();
-
             // Register HttpClient for Calendarific API service
             services.AddHttpClient<ICalendarificApiService, CalendarificApiService>();
 
@@ -62,6 +54,14 @@ namespace VacationAPI
 
             // Configure the IMapper service
             services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<AutoMapper.IConfigurationProvider>(), sp.GetService));
+
+            // Register services and repositories
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IVacationRequestRepository, VacationRequestRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IVacationRequestService, VacationRequestService>();
+            services.AddScoped<ICalendarificApiService, CalendarificApiService>();
+
 
             // Configure JWT authentication
             var jwtSettings = Configuration.GetSection("JwtSettings");
