@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using VacationAPI.Models;
 using VacationAPI.Services;
@@ -16,16 +17,19 @@ namespace VacationAPI.Data
 
                 try
                 {
-                    var userService = services.GetRequiredService<IUserService>();
-                    var vacationRequestService = services.GetRequiredService<IVacationRequestService>();
-                    var calendarificApiService = services.GetRequiredService<ICalendarificApiService>();
+                    var context = services.GetRequiredService<ApplicationDbContext>();
 
                     //Check if the database has already been seeded
-                    if (await vacationRequestService.DatabaseIsSeeded())
+                    if (await context.Users.AnyAsync())
                     {
                         return;
                     }
 
+                    var userService = services.GetRequiredService<IUserService>();
+                    var vacationRequestService = services.GetRequiredService<IVacationRequestService>();
+                    var calendarificApiService = services.GetRequiredService<ICalendarificApiService>();
+
+                    
                     // Seed users
                     await userService.CreateUser("John", "Doe", "johndoe", "password", "US", "User", 9, 17);
                     await userService.CreateUser("Jane", "Doe", "janedoe", "password", "US", "User", 9, 17);

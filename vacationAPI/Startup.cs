@@ -42,6 +42,11 @@ namespace VacationAPI
                 options.EnableSensitiveDataLogging();
             });
 
+            // Apply initialcreate migration
+            services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
+
+
+
             // Register services and repositories
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IVacationRequestRepository, VacationRequestRepository>();

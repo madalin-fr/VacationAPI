@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,7 +18,7 @@ namespace VacationAPI
     {
         public static async Task Main(string[] args)
         {
-                var host = CreateHostBuilder(args).Build();
+            var host = CreateHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
             {
@@ -29,7 +30,9 @@ namespace VacationAPI
                     var calendarificApiService = services.GetRequiredService<ICalendarificApiService>();
                     var vacationRequestRepository = services.GetRequiredService<IVacationRequestRepository>();
 
-                    // Seed the database with initial data
+                    var context = services.GetRequiredService<ApplicationDbContext>();
+                    await context.Database.MigrateAsync();
+
                     await DbInitializer.Initialize(services);
                 }
                 catch (Exception ex)
