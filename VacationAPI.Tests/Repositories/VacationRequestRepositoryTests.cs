@@ -17,25 +17,20 @@ namespace VacationAPI.Tests.Repositories
         private ApplicationDbContext _context;
         private IVacationRequestRepository _repository;
 
-        //[SetUp]
-        //public void Setup()
-        //{
-        //    var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-        //        .UseInMemoryDatabase(databaseName: "TestDb")
-        //        .Options;
-        //    _context = new ApplicationDbContext(options);
-        //    _repository = new VacationRequestRepository(_context);
-        //}
+
 
         [SetUp]
         public async Task SetUpAsync()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                .EnableSensitiveDataLogging()
                 .Options;
             _context = new ApplicationDbContext(options);
             _repository = new VacationRequestRepository(_context);
 
+            // Clear the database
+            await _context.Database.EnsureDeletedAsync();
             await _context.Database.EnsureCreatedAsync();
         }
 
@@ -68,8 +63,10 @@ namespace VacationAPI.Tests.Repositories
                     CountryCode = "US",
                     Role = "User",
                     StartWorkingHour = 8,
-                    EndWorkingHour = 17,
-                }
+                    EndWorkingHour = 17
+                },
+                Username = "jdoe",
+                Comment = "This is a test comment"
             };
             await _context.VacationRequests.AddAsync(expectedVacationRequest);
             await _context.SaveChangesAsync();
@@ -92,6 +89,8 @@ namespace VacationAPI.Tests.Repositories
             Assert.That(actualVacationRequest.User.Role, Is.EqualTo(expectedVacationRequest.User.Role));
             Assert.That(actualVacationRequest.User.StartWorkingHour, Is.EqualTo(expectedVacationRequest.User.StartWorkingHour));
             Assert.That(actualVacationRequest.User.EndWorkingHour, Is.EqualTo(expectedVacationRequest.User.EndWorkingHour));
+            Assert.That(actualVacationRequest.Username, Is.EqualTo(expectedVacationRequest.Username));
+            Assert.That(actualVacationRequest.Comment, Is.EqualTo(expectedVacationRequest.Comment));
         }
 
         [Test]
@@ -114,43 +113,49 @@ namespace VacationAPI.Tests.Repositories
             };
             var vacationRequests = new List<VacationRequest>
     {
-        new VacationRequest
-        {
-            RequestId = Guid.NewGuid(),
-            User = user,
-            StartDate = DateTime.Now.AddDays(1),
-            EndDate = DateTime.Now.AddDays(5),
-            Status = Status.Pending,
-        },
-        new VacationRequest
-        {
-            RequestId = Guid.NewGuid(),
-            User = user,
-            StartDate = DateTime.Now.AddDays(10),
-            EndDate = DateTime.Now.AddDays(15),
-            Status = Status.Approved,
-        },
-        new VacationRequest
-        {
-            RequestId = Guid.NewGuid(),
-            User = new User // Another user
-            {
-                Id = Guid.NewGuid(),
-                FirstName = "Jane",
-                LastName = "Doe",
-                UserName = "jane",
-                PasswordHash = new byte[] { 7, 8, 9 },
-                PasswordSalt = new byte[] { 10, 11, 12 },
-                CountryCode = "US",
-                Role = "User",
-                StartWorkingHour = 9,
-                EndWorkingHour = 18,
-            },
-            StartDate = DateTime.Now.AddDays(20),
-            EndDate = DateTime.Now.AddDays(25),
-            Status = Status.Pending,
-        },
-    };
+                new VacationRequest
+                {
+                    RequestId = Guid.NewGuid(),
+                    User = user,
+                    StartDate = DateTime.UtcNow.AddDays(1),
+                    EndDate = DateTime.UtcNow.AddDays(5),
+                    Status = Status.Pending,
+                    Username = user.UserName,
+                    Comment = "I need to attend a family event out of town."
+                },
+                new VacationRequest
+                {
+                    RequestId = Guid.NewGuid(),
+                    User = user,
+                    StartDate = DateTime.UtcNow.AddDays(10),
+                    EndDate = DateTime.UtcNow.AddDays(15),
+                    Status = Status.Approved,
+                    Username = user.UserName,
+                    Comment = "I'm taking a vacation to recharge."
+                },
+                new VacationRequest
+                {
+                    RequestId = Guid.NewGuid(),
+                    User = new User // Another user
+                    {
+                        Id = Guid.NewGuid(),
+                        FirstName = "Jane",
+                        LastName = "Doe",
+                        UserName = "jane",
+                        PasswordHash = new byte[] { 7, 8, 9 },
+                        PasswordSalt = new byte[] { 10, 11, 12 },
+                        CountryCode = "US",
+                        Role = "User",
+                        StartWorkingHour = 9,
+                        EndWorkingHour = 18,
+                    },
+                    StartDate = DateTime.UtcNow.AddDays(20),
+                    EndDate = DateTime.UtcNow.AddDays(25),
+                    Status = Status.Pending,
+                    Username = "jane",
+                    Comment = "I need a few days off for personal reasons."
+                },
+            };
             await _context.Users.AddAsync(user);
             await _context.VacationRequests.AddRangeAsync(vacationRequests);
             await _context.SaveChangesAsync();
@@ -171,72 +176,78 @@ namespace VacationAPI.Tests.Repositories
         [Test]
         public async Task GetVacationRequests_Returns_CorrectRequests()
         {
-            // Arrange
             var vacationRequests = new List<VacationRequest>
-    {
-        new VacationRequest
-        {
-            RequestId = Guid.NewGuid(),
-            User = new User
+{
+            new VacationRequest
             {
-                Id = Guid.NewGuid(),
-                FirstName = "John",
-                LastName = "Doe",
-                UserName = "jdoe",
-                PasswordHash = new byte[] { 1, 2, 3 },
-                PasswordSalt = new byte[] { 4, 5, 6 },
-                CountryCode = "US",
-                Role = "User",
-                StartWorkingHour = 8,
-                EndWorkingHour = 17,
+                RequestId = Guid.NewGuid(),
+                User = new User
+                {
+                    Id = Guid.NewGuid(),
+                    FirstName = "John",
+                    LastName = "Doe",
+                    UserName = "jdoe",
+                    PasswordHash = new byte[] { 1, 2, 3 },
+                    PasswordSalt = new byte[] { 4, 5, 6 },
+                    CountryCode = "US",
+                    Role = "User",
+                    StartWorkingHour = 8,
+                    EndWorkingHour = 17,
+                },
+                Username = "jdoe", 
+                StartDate = DateTime.Now.AddDays(1),
+                EndDate = DateTime.Now.AddDays(5),
+                Status = Status.Pending,
+                Comment = "Vacation Request 1"
             },
-            StartDate = DateTime.Now.AddDays(1),
-            EndDate = DateTime.Now.AddDays(5),
-            Status = Status.Pending,
-        },
-        new VacationRequest
-        {
-            RequestId = Guid.NewGuid(),
-            User = new User
+            new VacationRequest
             {
-                Id = Guid.NewGuid(),
-                FirstName = "Jane",
-                LastName = "Doe",
-                UserName = "jane",
-                PasswordHash = new byte[] { 7, 8, 9 },
-                PasswordSalt = new byte[] { 10, 11, 12 },
-                CountryCode = "US",
-                Role = "User",
-                StartWorkingHour = 9,
-                EndWorkingHour = 18,
+                RequestId = Guid.NewGuid(),
+                User = new User
+                {
+                    Id = Guid.NewGuid(),
+                    FirstName = "Jane",
+                    LastName = "Doe",
+                    UserName = "jane",
+                    PasswordHash = new byte[] { 7, 8, 9 },
+                    PasswordSalt = new byte[] { 10, 11, 12 },
+                    CountryCode = "US",
+                    Role = "User",
+                    StartWorkingHour = 9,
+                    EndWorkingHour = 18,
+                },
+                Username = "jane", 
+                StartDate = DateTime.Now.AddDays(10),
+                EndDate = DateTime.Now.AddDays(15),
+                Status = Status.Approved,
+                Comment = "Vacation Request 2"
             },
-            StartDate = DateTime.Now.AddDays(10),
-            EndDate = DateTime.Now.AddDays(15),
-            Status = Status.Approved,
-        },
-        new VacationRequest
-        {
-            RequestId = Guid.NewGuid(),
-            User = new User
+            new VacationRequest
             {
-                Id = Guid.NewGuid(),
-                FirstName = "Bob",
-                LastName = "Smith",
-                UserName = "bsmith",
-                PasswordHash = new byte[] { 13, 14, 15 },
-                PasswordSalt = new byte[] { 16, 17, 18 },
-                CountryCode = "US",
-                Role = "User",
-                StartWorkingHour = 8,
-                EndWorkingHour = 17,
+                RequestId = Guid.NewGuid(),
+                User = new User
+                {
+                    Id = Guid.NewGuid(),
+                    FirstName = "Bob",
+                    LastName = "Smith",
+                    UserName = "bsmith",
+                    PasswordHash = new byte[] { 13, 14, 15 },
+                    PasswordSalt = new byte[] { 16, 17, 18 },
+                    CountryCode = "US",
+                    Role = "User",
+                    StartWorkingHour = 8,
+                    EndWorkingHour = 17,
+                },
+                Username = "bsmith", 
+                StartDate = DateTime.Now.AddDays(5),
+                EndDate = DateTime.Now.AddDays(8),
+                Status = Status.Pending,
+                Comment = "Vacation Request 3"
             },
-            StartDate = DateTime.Now.AddDays(5),
-            EndDate = DateTime.Now.AddDays(8),
-            Status = Status.Pending,
-        },
-    };
+        };
             await _context.VacationRequests.AddRangeAsync(vacationRequests);
             await _context.SaveChangesAsync();
+
 
             // Act
             var result = await _repository.GetVacationRequests();

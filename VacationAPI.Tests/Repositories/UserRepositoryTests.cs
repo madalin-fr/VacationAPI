@@ -165,7 +165,7 @@ namespace VacationAPI.Tests.Repositories
             Assert.That(actualUser.FirstName, Is.EqualTo(expectedUser.FirstName));
             Assert.That(actualUser.LastName, Is.EqualTo(expectedUser.LastName));
             Assert.That(actualUser.UserName, Is.EqualTo(expectedUser.UserName));
-            Assert.That(actualUser.PasswordHash, Is.EqualTo(expectedUser.PasswordHash));
+                Assert.That(actualUser.PasswordHash, Is.EqualTo(expectedUser.PasswordHash));
             Assert.That(actualUser.PasswordSalt, Is.EqualTo(expectedUser.PasswordSalt));
             Assert.That(actualUser.CountryCode, Is.EqualTo(expectedUser.CountryCode));
             Assert.That(actualUser.Role, Is.EqualTo(expectedUser.Role));
@@ -200,16 +200,18 @@ namespace VacationAPI.Tests.Repositories
 
             // Assert
             Assert.IsNotNull(actualUser);
-            Assert.AreEqual(expectedUser.FirstName, actualUser.FirstName);
-            Assert.AreEqual(expectedUser.LastName, actualUser.LastName);
-            Assert.AreEqual(expectedUser.UserName, actualUser.UserName);
-            Assert.AreEqual(expectedUser.PasswordHash, actualUser.PasswordHash);
-            Assert.AreEqual(expectedUser.PasswordSalt, actualUser.PasswordSalt);
-            Assert.AreEqual(expectedUser.CountryCode, actualUser.CountryCode);
-            Assert.AreEqual(expectedUser.Role, actualUser.Role);
-            Assert.AreEqual(expectedUser.StartWorkingHour, actualUser.StartWorkingHour);
-            Assert.AreEqual(expectedUser.EndWorkingHour, actualUser.EndWorkingHour);
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(actualUser.FirstName, Is.EqualTo(expectedUser.FirstName));
+                Assert.That(actualUser.LastName, Is.EqualTo(expectedUser.LastName));
+                Assert.That(actualUser.UserName, Is.EqualTo(expectedUser.UserName));
+                Assert.That(actualUser.PasswordHash, Is.EqualTo(expectedUser.PasswordHash));
+                Assert.That(actualUser.PasswordSalt, Is.EqualTo(expectedUser.PasswordSalt));
+                Assert.That(actualUser.CountryCode, Is.EqualTo(expectedUser.CountryCode));
+                Assert.That(actualUser.Role, Is.EqualTo(expectedUser.Role));
+                Assert.That(actualUser.StartWorkingHour, Is.EqualTo(expectedUser.StartWorkingHour));
+                Assert.That(actualUser.EndWorkingHour, Is.EqualTo(expectedUser.EndWorkingHour));
+            });
         }
 
         [Test]
@@ -222,7 +224,7 @@ namespace VacationAPI.Tests.Repositories
             var actualUser = await _repository.GetById(nonexistentId);
 
             // Assert
-            Assert.IsNull(actualUser);
+            Assert.That(actualUser, Is.Null);
 
         }
     }

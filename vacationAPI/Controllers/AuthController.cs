@@ -37,6 +37,7 @@ namespace VacationAPI.Controllers
         [SwaggerOperation(Summary = "Check if user is authenticated successfully and returns username and role", Description = "Checks if the user is authenticated via a Bearer JWT token and returns the username and role if the user is authorized.")]
         [SwaggerResponse(StatusCodes.Status200OK, "The user is authorized and the username and role are returned as a JSON object.")]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, "The user is not authenticated.")]
+        [AllowAnonymous]
         public async Task<IActionResult> CheckAuthentication()
         {
             try
@@ -49,7 +50,7 @@ namespace VacationAPI.Controllers
 
                 if (user == null)
                 {
-                    return Unauthorized(); // Return a 401 Unauthorized response if the user is not found
+                    return NotFound(); // Return a 401
                 }
 
                 // Create a new anonymous object with the user's name and role
