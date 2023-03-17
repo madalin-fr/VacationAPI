@@ -19,7 +19,8 @@ namespace VacationAPI.Tests.Services
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var service = new CalendarificApiService(configuration);
+            var httpClient = new HttpClient();
+            var service = new CalendarificApiService(configuration, httpClient);
 
             // Act
             var result = await service.GetHolidaysAsync(2021, "US");
