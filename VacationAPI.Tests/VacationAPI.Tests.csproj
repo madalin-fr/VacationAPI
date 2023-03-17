@@ -6,7 +6,12 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <ItemGroup>
+    <PropertyGroup>
+		<OutputPath>$(BaseOutputPath)\Tests\$(Configuration)</OutputPath>
+	</PropertyGroup>
+
+
+	<ItemGroup>
     <None Remove="appsettings.json" />
   </ItemGroup>
 
