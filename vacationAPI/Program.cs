@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +29,9 @@ namespace VacationAPI
                     var vacationRequestService = services.GetRequiredService<IVacationRequestService>();
                     var calendarificApiService = services.GetRequiredService<ICalendarificApiService>();
                     var vacationRequestRepository = services.GetRequiredService<IVacationRequestRepository>();
+
+                    var context = services.GetRequiredService<ApplicationDbContext>();
+                    await context.Database.MigrateAsync();
 
                     // Seed the database with initial data
                     await DbInitializer.Initialize(services);

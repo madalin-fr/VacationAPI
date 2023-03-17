@@ -42,12 +42,15 @@ namespace VacationAPI
                 options.EnableSensitiveDataLogging();
             });
 
+            // Apply initialcreate migration
+            services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
+
             // Register services and repositories
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IVacationRequestRepository, VacationRequestRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IVacationRequestService, VacationRequestService>();
-            services.AddScoped<ICalendarificApiService, CalendarificApiService>();
+            services.AddSingleton<ICalendarificApiService, CalendarificApiService>();
 
             // Register HttpClient for Calendarific API service
             services.AddHttpClient<ICalendarificApiService, CalendarificApiService>();
