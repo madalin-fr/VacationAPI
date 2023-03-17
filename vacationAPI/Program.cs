@@ -30,8 +30,8 @@ namespace VacationAPI
                     var calendarificApiService = services.GetRequiredService<ICalendarificApiService>();
                     var vacationRequestRepository = services.GetRequiredService<IVacationRequestRepository>();
 
-                    var context = services.GetRequiredService<ApplicationDbContext>();
-                    await context.Database.MigrateAsync();
+                    //var context = services.GetRequiredService<ApplicationDbContext>();
+                    //await context.Database.MigrateAsync();
 
                     // Seed the database with initial data
                     await DbInitializer.Initialize(services);

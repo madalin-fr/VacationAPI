@@ -8,8 +8,11 @@ To get started with VacationAPI, you can follow these steps:
 
 1. Clone the repository to your local machine.
 2. Open the solution in Visual Studio.
-3. Build and run the application.
-4. Use a tool like Postman to interact with the API endpoints. Or use Swagger for more user-friendly approach.
+3. Apply `update-database` in NuGet Package Manager to apply migrations and create local database.  
+4. Build and run the application.
+5. Use a tool like Postman to interact with the API endpoints. Or use Swagger for more user-friendly approach. (default page redirects to /swagger)
+
+Bonus: Live deployment `https://vacationapi-madalinfr.azurewebsites.net/` 
 
 ## API Documentation
 
