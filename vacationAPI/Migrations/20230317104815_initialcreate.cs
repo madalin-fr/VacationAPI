@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace VacationAPI.Migrations
 {
     public partial class initialcreate : Migration
@@ -32,7 +34,7 @@ namespace VacationAPI.Migrations
                 name: "VacationRequests",
                 columns: table => new
                 {
-                    requestId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RequestId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
@@ -43,13 +45,12 @@ namespace VacationAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VacationRequests", x => x.requestId);
+                    table.PrimaryKey("PK_VacationRequests", x => x.RequestId);
                     table.ForeignKey(
                         name: "FK_VacationRequests_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

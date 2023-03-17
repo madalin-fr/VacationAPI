@@ -42,7 +42,7 @@ namespace VacationAPI
                 options.EnableSensitiveDataLogging();
             });
 
-            // Apply initialcreate migration
+            //Apply initialcreate migration
             services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
 
 

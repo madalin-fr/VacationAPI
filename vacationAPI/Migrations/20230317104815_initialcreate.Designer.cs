@@ -7,19 +7,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VacationAPI.Data;
 
+#nullable disable
+
 namespace VacationAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230316092129_initialcreate")]
+    [Migration("20230317104815_initialcreate")]
     partial class initialcreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.17")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.15")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("VacationAPI.Models.User", b =>
                 {
@@ -64,7 +67,7 @@ namespace VacationAPI.Migrations
 
             modelBuilder.Entity("VacationAPI.Models.VacationRequest", b =>
                 {
-                    b.Property<Guid>("requestId")
+                    b.Property<Guid>("RequestId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -89,7 +92,7 @@ namespace VacationAPI.Migrations
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("requestId");
+                    b.HasKey("RequestId");
 
                     b.HasIndex("UserId");
 

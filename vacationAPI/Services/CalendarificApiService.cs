@@ -15,12 +15,13 @@ namespace VacationAPI.Services
     {
         private readonly string _apiKey;
         private readonly string _baseUrl = "https://calendarific.com/api/v2";
+        private readonly HttpClient _httpClient;
 
-        public CalendarificApiService(IConfiguration configuration)
+        public CalendarificApiService(IConfiguration configuration, HttpClient httpClient)
         {
             _apiKey = configuration.GetValue<string>("CalendarificApi:ApiKey");
+            _httpClient = httpClient;
         }
-
         public async Task<List<NationalHoliday>> GetHolidaysAsync(int year, string countryCode)
         {
             string url = $"{_baseUrl}/holidays?api_key={_apiKey}&country={countryCode}&year={year}&type=national";
