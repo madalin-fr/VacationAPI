@@ -75,7 +75,7 @@ namespace VacationAPI.Controllers
 
             try
             {
-                await _userService.CreateUser(registerUserDto.FirstName, registerUserDto.LastName, registerUserDto.UserName, registerUserDto.Password, registerUserDto.CountryCode, registerUserDto.Role, registerUserDto.StartWorkingHour, registerUserDto.EndWorkingHour);
+                await _userService.CreateUser(user.FirstName, user.LastName, user.UserName, registerUserDto.Password, user.CountryCode, user.Role, user.StartWorkingHour, user.EndWorkingHour);
 
             }
             catch (Exception)

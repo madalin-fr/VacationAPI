@@ -15,5 +15,6 @@ public interface IVacationRequestService
     Task<IEnumerable<VacationRequest>> GetByUsername(string username);
     int CalculateWeekendDaysCount(DateTime startDate, DateTime endDate);
     int CalculateTotalVacationDaysUsed(User user, DateTime startDate, DateTime endDate);
+    Task<bool> ChangeVacationRequestStatus(string username, Guid requestId, Status newStatus);
     Task<bool> DatabaseIsSeeded();
 }

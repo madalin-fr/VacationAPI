@@ -52,7 +52,7 @@ namespace VacationAPI.Services
                 return Guid.Empty;
             }
 
-            if (requestedDays > availableVacationDays)
+            if (requestedDays > availableVacationDays || availableVacationDays < 0)
             {
                 _logger.LogInformation($"Requested vacation days exceed available days for user with username {username}. End date will be adjusted accordingly.");
                 
@@ -84,6 +84,34 @@ namespace VacationAPI.Services
             await _vacationRequestRepository.Save(vacationRequest);
 
             return vacationRequest.RequestId;
+        }
+
+        public async Task<bool> ChangeVacationRequestStatus(string username, Guid requestId, Status newStatus)
+        {
+            var user = await _userService.GetByUsername(username);
+
+            if (user == null)
+            {
+                _logger.LogError($"Username {username} not found. Request edit cancelled.");
+                return false;
+            }
+
+            // Get the vacation request by id
+            var vacationRequest = user.VacationRequests.FirstOrDefault(r => r.RequestId == requestId);
+
+            if (vacationRequest == null)
+            {
+                _logger.LogError($"Vacation request with id {requestId} not found for username {username}.");
+                return false;
+            }
+
+            vacationRequest.Status = newStatus;
+
+            // Save the changes to the database
+            await _userService.Save(user);
+
+            return true;
+
         }
 
         public async Task<bool> ModifyVacationRequest(string username, Guid requestId, DateTime startDate, DateTime endDate, Status status, string comment = null)
@@ -119,7 +147,7 @@ namespace VacationAPI.Services
             }
 
 
-            if (requestedDays > availableVacationDays)
+            if (requestedDays > availableVacationDays || availableVacationDays < 0)
             {
                 _logger.LogInformation($"Requested vacation days exceed available days for user with username {username}. End date will be adjusted accordingly.");
 
@@ -267,8 +295,6 @@ namespace VacationAPI.Services
 
                 // Calculate the number of available vacation days
                 int availableVacationDays = user.AvailableVacationDaysPerYear - vacationDaysUsed - (requestedDays - weekendsCount - nationalHolidaysCount) ;
-
-                availableVacationDays = Math.Max(0, availableVacationDays);
 
                 return availableVacationDays;
             }

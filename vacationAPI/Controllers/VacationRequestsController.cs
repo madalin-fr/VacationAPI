@@ -202,12 +202,9 @@ namespace VacationAPI.Controllers
                 return NotFound($"Vacation request with ID {requestId} not found.");
             }
 
-
-            vacationRequest.Status = Status.Approved;
-
             try
             {
-                await _vacationRequestService.ModifyVacationRequest(vacationRequest.Username, vacationRequest.RequestId, vacationRequest.StartDate, vacationRequest.EndDate, vacationRequest.Status, vacationRequest.Comment);
+                await _vacationRequestService.ChangeVacationRequestStatus(vacationRequest.Username, vacationRequest.RequestId, Status.Approved);
             }
             catch (Exception)
             {
@@ -232,11 +229,10 @@ namespace VacationAPI.Controllers
                 return NotFound($"Vacation request with ID {requestId} not found.");
             }
 
-            vacationRequest.Status = Status.Rejected;
 
             try
             {
-                await _vacationRequestService.ModifyVacationRequest(vacationRequest.Username, vacationRequest.RequestId, vacationRequest.StartDate, vacationRequest.EndDate, vacationRequest.Status, vacationRequest.Comment);
+                await _vacationRequestService.ChangeVacationRequestStatus(vacationRequest.Username, vacationRequest.RequestId, Status.Rejected);
             }
             catch (Exception)
             {
