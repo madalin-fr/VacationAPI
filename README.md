@@ -12,11 +12,13 @@ To get started with VacationAPI, you can follow these steps:
 4. Build and run the application.
 5. Use a tool like Postman to interact with the API endpoints. Or use Swagger for more user-friendly approach. (default page redirects to /swagger)
 
-Bonus: Live deployment `https://vacationapi-madalinfr.azurewebsites.net/` 
+Bonus: Live deployment `https://vacationapi.herokuapp.com/` (it works with PostgreSQL server from Supabase)
+
+~~`https://vacationapi-madalinfr.azurewebsites.net/`~~ (expired in 30 days) :(
 
 ## API Documentation
 
-The API documentation is available through Swagger. You can access the Swagger UI by navigating to `/swagger` in your browser.
+The API documentation is available through Swagger. You can access the Swagger UI by navigating to main page (I redirected /swagger to /# )
 
 ## Authentication
 
@@ -67,14 +69,26 @@ We recommend Swagger because it has user-friendly interface when doing API calls
 
 ## Dependencies
 
-Here's a list of the main dependencies used in this project:
+For the vacationAPI project, the main dependencies used in the project are:
 
-- `Microsoft.EntityFrameworkCore`
-- `Microsoft.AspNetCore.Authentication.JwtBearer`
-- `Microsoft.Extensions.Configuration`
-- `Microsoft.Extensions.DependencyInjection`
-- `Microsoft.OpenApi.Models`
-- `AutoMapper`
+- Microsoft.EntityFrameworkCore
+- Microsoft.AspNetCore.Authentication.JwtBearer
+- Microsoft.Extensions.Configuration
+- Npgsql.EntityFrameworkCore.PostgreSQL
+- Swashbuckle.AspNetCore
+
+For the vacationAPI.Tests project, the main dependencies used in the project are:
+
+- Microsoft.EntityFrameworkCore
+- Microsoft.EntityFrameworkCore.InMemory
+- Microsoft.EntityFrameworkCore.Tools
+- Microsoft.Extensions.Configuration
+- NUnit
+- Moq
+- NUnit3TestAdapter
+- NUnit.Analyzers
+- coverlet.collector
+
 
 ## Testing
 
