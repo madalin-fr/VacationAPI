@@ -35,10 +35,14 @@ namespace VacationAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
+
             // Register the DbContext with connection string from appsettings.json
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
                 options.EnableSensitiveDataLogging();
             });
 

@@ -29,12 +29,10 @@ namespace VacationAPI.Data
                     var vacationRequestService = services.GetRequiredService<IVacationRequestService>();
                     var calendarificApiService = services.GetRequiredService<ICalendarificApiService>();
 
-                    
                     // Seed users
                     await userService.CreateUser("John", "Doe", "johndoe", "password", "US", "User", 9, 17);
                     await userService.CreateUser("Jane", "Doe", "janedoe", "password", "US", "User", 9, 17);
                     await userService.CreateUser("Madalin", "Frincu", "madalinfr", "password", "RO", "Admin", 9, 17);
-
 
                     var johnDoe = await userService.GetByUsername("johndoe");
                     var janeDoe = await userService.GetByUsername("janedoe");
@@ -47,14 +45,14 @@ namespace VacationAPI.Data
                         await vacationRequestService.CreateVacationRequest(johnDoe.UserName, new DateTime(2022, 4, 11), new DateTime(2022, 4, 13));
                         await vacationRequestService.CreateVacationRequest(johnDoe.UserName, new DateTime(2022, 8, 5), new DateTime(2022, 8, 13), comment: "Summer holiday vacation");
                     }
+
                     // Seed vacation requests for Jane Doe
                     if (janeDoe != null)
                     {
-
                         await vacationRequestService.CreateVacationRequest(janeDoe.UserName, new DateTime(2023, 3, 25), new DateTime(2023, 4, 1), comment: "Going on a camping trip with friends");
                         await vacationRequestService.CreateVacationRequest(janeDoe.UserName, new DateTime(2023, 5, 10), new DateTime(2023, 5, 14), comment: "Taking a mental health break");
                     }
-                
+
                 }
                 catch (Exception ex)
                 {

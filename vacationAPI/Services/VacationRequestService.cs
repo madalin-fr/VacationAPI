@@ -27,7 +27,7 @@ namespace VacationAPI.Services
             _logger = logger;
         }
 
-        public async Task<Guid> CreateVacationRequest(string username, DateTime startDate, DateTime endDate, string comment = null)
+        public async Task<Guid> CreateVacationRequest(string username, DateTime startDate, DateTime endDate, string comment = "")
         {
             // Get the user by username
             var user = await _userService.GetByUsername(username);

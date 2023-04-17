@@ -27,6 +27,11 @@ namespace VacationAPI.Models
                 .FirstOrDefault()?.Description;
         }
 
+        public VacationRequest()
+        {
+            Comment = "";
+        }
+
     }
 }
 

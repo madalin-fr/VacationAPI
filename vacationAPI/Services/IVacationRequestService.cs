@@ -5,8 +5,8 @@ using VacationAPI.Models;
 
 public interface IVacationRequestService
 {
-    Task<Guid> CreateVacationRequest(string username, DateTime startDate, DateTime endDate, string comment = null);
-    Task<bool> ModifyVacationRequest(string username, Guid requestId, DateTime startDate, DateTime endDate, Status status, string comment = null);
+    Task<Guid> CreateVacationRequest(string username, DateTime startDate, DateTime endDate, string comment = "");
+    Task<bool> ModifyVacationRequest(string username, Guid requestId, DateTime startDate, DateTime endDate, Status status, string comment = "");
     Task<bool> DeleteVacationRequest(string username, Guid requestId);
     Task<List<VacationRequest>> GetVacationRequests(string username);
     Task<int> CalculateAvailableVacationDaysInDateRange(string username, DateTime startDate, DateTime endDate);
