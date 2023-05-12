@@ -12,8 +12,9 @@ To get started with VacationAPI, you can follow these steps:
 4. Build and run the application.
 5. Use a tool like Postman to interact with the API endpoints. Or use Swagger for more user-friendly approach. (default page redirects to /swagger)
 
-Bonus: Live deployment `https://vacationapi.herokuapp.com/` (it works with PostgreSQL server from Supabase)
+Bonus: Live deployment `https://vacationapi.up.railway.app/` (it works with PostgreSQL server hosted on Supabase)
 
+~~https://vacationapi.herokuapp.com/~~ (charges money since September 2022 policy change) :(
 ~~`https://vacationapi-madalinfr.azurewebsites.net/`~~ (expired in 30 days) :(
 
 ## API Documentation
