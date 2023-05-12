@@ -14,7 +14,8 @@ To get started with VacationAPI, you can follow these steps:
 
 Bonus: Live deployment `https://vacationapi.up.railway.app/` (it works with PostgreSQL server hosted on Supabase)
 
-~~https://vacationapi.herokuapp.com/~~ (charges money since September 2022 policy change) :(
+~~`https://vacationapi.herokuapp.com/`~~ (charges money since September 2022 policy change) :(
+
 ~~`https://vacationapi-madalinfr.azurewebsites.net/`~~ (expired in 30 days) :(
 
 ## API Documentation
