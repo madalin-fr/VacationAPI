@@ -12,9 +12,12 @@ To get started with VacationAPI, you can follow these steps:
 4. Build and run the application.
 5. Use a tool like Postman to interact with the API endpoints. Or use Swagger for more user-friendly approach. (default page redirects to /swagger)
 
-Bonus: Live deployment `https://vacationapi.herokuapp.com/` (it works with PostgreSQL server from Supabase)
+Bonus: Live deployment `https://vacationapi.herokuapp.com/` 
 
 ~~`https://vacationapi-madalinfr.azurewebsites.net/`~~ (expired in 30 days) :(
+
+This WebAPI uses PostgreSQL database. You can checkout the appsettings.json and choose your preferred connection string. The default database is hosted remotely on railway.app but you can setup on Supabase.com or even locally.
+
 
 ## API Documentation
 
